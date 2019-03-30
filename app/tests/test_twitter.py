@@ -1,6 +1,7 @@
 import unittest
 import unittest.mock
-from twitter import Twitter
+from ocupa2app.helpers.twitter import Twitter
+
 
 class TwitterTestCase(unittest.TestCase):
 

@@ -3,3 +3,4 @@ neomodel
 django-neomodel
 django-celery-results
 django-celery-beat
+django-constance[database]

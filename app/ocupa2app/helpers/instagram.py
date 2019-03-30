@@ -1,10 +1,10 @@
 import requests
 
-class Instagram():
+class Instagram:
 
     BASE_URL = 'http://hackathon.ocupa2.com/instagram/'
 
-    def __init__(self,user_id, token=None):
+    def __init__(self, user_id, token=None):
         self.token = token
         self.user_id = user_id
         self.hashtag_cache = dict()

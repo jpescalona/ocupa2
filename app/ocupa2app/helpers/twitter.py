@@ -1,6 +1,6 @@
 import requests
 
-class Twitter():
+class Twitter:
 
     BASE_URL = 'http://hackathon.ocupa2.com/twitter/1.1/'
 

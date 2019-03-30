@@ -1,8 +1,9 @@
 import unittest
 import unittest.mock
-from instagram import Instagram
+from ocupa2app.helpers.instagram import Instagram
 
-class MyTestCase(unittest.TestCase):
+
+class InstagramTestCase(unittest.TestCase):
 
     def setUp(self):
         self.user_id = 'pablo@docecosas.com'
