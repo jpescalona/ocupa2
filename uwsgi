@@ -1,0 +1,15 @@
+FROM python:3
+
+WORKDIR /app
+
+COPY app/ .
+
+RUN pip install --no-cache-dir -r requirements/requirements-uwsgi.txt
+
+CMD [ "uwsgi", "--socket", "0.0.0.0:8000", \
+			   "--env", "DJANGO_SETTINGS_MODULE=ocupa2.settings", \
+               "--chdir", "/app", \
+               "--module", "ocupa2.wsgi:application", \
+               "--processes", "5", \
+               "--harakiri", "60", \
+               "--vacuum"]

@@ -1,0 +1,4 @@
+Django
+neomodel
+django-celery-results
+django-celery-beat

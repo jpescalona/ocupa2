@@ -1,0 +1,12 @@
+FROM python:3
+
+WORKDIR /app
+
+COPY app/ .
+
+RUN pip install --no-cache-dir -r requirements/requirements-celery.txt
+
+CMD [ "celery", "worker", \
+				"-B", \
+			   	"-A", "ocupa2", \
+               	"--concurrency", "2"]
