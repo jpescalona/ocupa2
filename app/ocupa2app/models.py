@@ -19,19 +19,21 @@ class User(DjangoNode):
 
 class InstagramPost(DjangoNode):
     uid = UniqueIdProperty()
-    like_count = IntegerProperty()
     created = DateTimeProperty(default=datetime.utcnow)
     user = RelationshipTo(User, 'BELONGS_TO')
+    hashtag = RelationshipTo('HashTag', 'HAS_HASHTAG')
 
+    like_count = IntegerProperty()
     comment_count = IntegerProperty()
     media_type = StringProperty()
 
 class TweeterPost(DjangoNode):
     uid = UniqueIdProperty()
-    like_count = IntegerProperty()
     created = DateTimeProperty(default=datetime.utcnow)
     user = RelationshipTo(User, 'BELONGS_TO')
+    hashtag = RelationshipTo('HashTag', 'HAS_HASHTAG')
 
+    like_count = IntegerProperty()
     retweeted_count = IntegerProperty()
     reply_count = IntegerProperty()
 
