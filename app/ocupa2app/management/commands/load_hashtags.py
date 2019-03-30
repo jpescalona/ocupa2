@@ -24,7 +24,7 @@ class Command(BaseCommand):
                 for hashtag_name in hashtags:
                     hashtag = HashTag.nodes.get_or_none(name=hashtag_name)
                     if hashtag is None:
-                        hashtag = hashtag.create({'name': hashtag_name})
+                        hashtag = HashTag.create({'name': hashtag_name})
                     hashtag.category.connect(category)
         except IOError:
             raise CommandError('{} cannot be loaded'.format(options['data_file']))
