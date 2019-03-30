@@ -20,11 +20,13 @@ class Command(BaseCommand):
             for category_name, hashtags in load(open(options['data_file'], 'r').read(), Loader=Loader).items():
                 category = Category.nodes.get_or_none(name=category_name)
                 if category is None:
-                    category = Category.create({'name': category_name})
+                    category = Category.create({'name': category_name})[0]
                 for hashtag_name in hashtags:
+                    print('Creating ', hashtag_name)
                     hashtag = HashTag.nodes.get_or_none(name=hashtag_name)
                     if hashtag is None:
-                        hashtag = HashTag.create({'name': hashtag_name})
+                        hashtag = HashTag.create({'name': hashtag_name})[0]
+
                     hashtag.category.connect(category)
         except IOError:
             raise CommandError('{} cannot be loaded'.format(options['data_file']))
