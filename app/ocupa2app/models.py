@@ -38,7 +38,7 @@ class TweeterPost(DjangoNode):
 class Category(DjangoNode):
     uid = UniqueIdProperty()
     name =  StringProperty(unique_index=True)
-    hastags = RelationshipFrom('HashTag', 'IS_FROM')
+    hashtags = RelationshipFrom('HashTag', 'IS_FROM')
 
 class HashTag(DjangoNode):
     uid = UniqueIdProperty()
