@@ -2,6 +2,10 @@ version: '3'
 services:
   neo4j:
     image: "neo4j:3.3"
+    ports:
+      - "7687:7687"
+    environment:
+      - NEO4J_AUTH=none
   redis:
     image: "redis:4.0"    
   celery:

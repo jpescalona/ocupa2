@@ -1,3 +1,4 @@
 -r base.txt
 django-redis
+django-bootstrap4
 uWSGI
