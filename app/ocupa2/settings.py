@@ -43,6 +43,7 @@ COMMON_APPS = [
         'constance.backends.database',
         'django_neomodel',
         'ocupa2app',
+        'django_extensions',
 ]
 
 if sys.argv[0].endswith('celery'):
