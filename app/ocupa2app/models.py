@@ -4,13 +4,13 @@ from neomodel import StringProperty, DateTimeProperty, UniqueIdProperty, Integer
     RelationshipTo, RelationshipFrom
 
 class SocialNetwork(DjangoNode):
-    id = UniqueIdProperty()
+    uid = UniqueIdProperty()
     name = StringProperty(unique_index=True)
     user = RelationshipFrom('User', 'HAS_ACCOUNT')
 
 
 class User(DjangoNode):
-    id = UniqueIdProperty()
+    uid = UniqueIdProperty()
     name = StringProperty(unique_index=True)
     created = DateTimeProperty(default=datetime.utcnow)
     refreshed = DateTimeProperty(default=datetime.utcnow)
@@ -18,7 +18,7 @@ class User(DjangoNode):
     post = RelationshipFrom('Post', 'BELONGS_TO')
 
 class InstagramPost(DjangoNode):
-    id = UniqueIdProperty()
+    uid = UniqueIdProperty()
     like_count = IntegerProperty()
     created = DateTimeProperty(default=datetime.utcnow)
     user = RelationshipTo(User, 'BELONGS_TO')
@@ -27,7 +27,7 @@ class InstagramPost(DjangoNode):
     media_type = StringProperty()
 
 class TweeterPost(DjangoNode):
-    id = UniqueIdProperty()
+    uid = UniqueIdProperty()
     like_count = IntegerProperty()
     created = DateTimeProperty(default=datetime.utcnow)
     user = RelationshipTo(User, 'BELONGS_TO')
@@ -36,11 +36,11 @@ class TweeterPost(DjangoNode):
     reply_count = IntegerProperty()
 
 class Category(DjangoNode):
-    id = UniqueIdProperty()
+    uid = UniqueIdProperty()
     name =  StringProperty(unique_index=True)
     hastags = RelationshipFrom('HashTag', 'IS_FROM')
 
 class HashTag(DjangoNode):
-    id = UniqueIdProperty()
+    uid = UniqueIdProperty()
     name = StringProperty(unique_index=True)
     category = RelationshipTo(Category, 'IS_FROM')
