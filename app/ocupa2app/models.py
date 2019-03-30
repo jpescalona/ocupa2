@@ -15,6 +15,8 @@ class User(DjangoNode):
     created = DateTimeProperty(default=datetime.utcnow)
     refreshed = DateTimeProperty(default=datetime.utcnow)
     social_network = RelationshipTo(SocialNetwork, 'HAS_ACCOUNT')
+    media_count = IntegerProperty()
+    follower_count = IntegerProperty()
     post = RelationshipTo('Post', 'BELONGS_TO')
 
 class Post(DjangoNode):

@@ -58,7 +58,7 @@ class Instagram:
             url = Instagram.BASE_URL + 'media/{id}'.format(id=media_id)
             params = {'fields': 'id,comments_count,like_count,media_type,username'}
             d = requests.get(url, params)
-            self.media_cache[media_id] = d.json()
+            self.media_cache[media_id] = d.json()[0]
         return self.media_cache[media_id]
 
     def get_user(self, user_id):
@@ -66,7 +66,7 @@ class Instagram:
             url = Instagram.BASE_URL + '{id}'.format(id=user_id)
             params = {'fields': 'id,username,media_count,follower_count'}
             d = requests.get(url, params)
-            self.user_cache[user_id] = d
+            self.user_cache[user_id] = d.json()[0]
         return self.user_cache[user_id]
 
     def extend_posts(self, posts):
@@ -79,11 +79,17 @@ class Instagram:
 def get_user_object(user_id):
     pass
 
+
 def fetch_posts_and_users_for_tag(tag, logger=None):
     if not logger:
         logger = logging.getLogger(__name__)
     ig = Instagram('pablo@docecosas.com')
     """ It will download and store every item in the model """
+    logger.info('Fetching social_network')
+    social_network = SocialNetwork.nodes.get_or_none(name='instagram')
+    if social_network is None:
+        social_network = SocialNetwork.create({'name': 'instagram'})[0]
+    logger.info('Found %s', social_network)
     logger.info('Fetching posts for tag %s', tag)
     hashtag_id = ig.get_hashtag(tag)
     recent_posts = ig.get_recent_posts(hashtag_id)
@@ -95,9 +101,21 @@ def fetch_posts_and_users_for_tag(tag, logger=None):
         IP = InstagramPost.nodes.get_or_none(uid=post['id'])
         if IP is None:
             logger.info('Creating post %s', post['id'])
-            media = ig.get_media(post['id'])
-            # TODO Assign to user from media
             IP = InstagramPost.create({'uid': post['id'],'like_count': post['likeCount'],'comment_count': post['commentsCount'],'media_type': post['mediaType']})[0]
+            logger.info('Fetching for media %s', post['id'])
+            media = ig.get_media(post['id'])
+            logger.info('Fetched %s', post['id'])
+            user_id = media['userId']
+            user = social_network.user.get_or_none(uid=user_id)
+            logger.info('Found user %s', user) 
+            if not user:
+                user_data = ig.get_user(user_id)
+                logger.info('Fetched user %s', user_data)
+                user = User.create({'uid': user_id, 'name': user_data['username'], 'media_count': user_data['mediaCount'], 'follower_count': user_data['followerCount']})[0]
+                logger.info('Created user %s', user)
+                user.social_network.connect(social_network)
+                logger.info('Created user %s', user)
+            user.post.connect(IP)
             logger.info('Created %s', IP)
         logger.info('Connecting post %s to %s', post['id'], tag)
         IP.hashtags.connect(HashTag.nodes.get(name=tag))
