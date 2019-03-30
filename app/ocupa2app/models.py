@@ -10,30 +10,25 @@ class SocialNetwork(DjangoNode):
 
 
 class User(DjangoNode):
-    uid = UniqueIdProperty()
+    uid = StringProperty()
     name = StringProperty(unique_index=True)
     created = DateTimeProperty(default=datetime.utcnow)
     refreshed = DateTimeProperty(default=datetime.utcnow)
     social_network = RelationshipTo(SocialNetwork, 'HAS_ACCOUNT')
-    post = RelationshipFrom('Post', 'BELONGS_TO')
+    post = RelationshipTo('Post', 'BELONGS_TO')
 
-class InstagramPost(DjangoNode):
-    uid = UniqueIdProperty()
+class Post(DjangoNode):
+    uid = StringProperty()
     created = DateTimeProperty(default=datetime.utcnow)
     user = RelationshipTo(User, 'BELONGS_TO')
     hashtags = RelationshipTo('HashTag', 'HAS_HASHTAG')
-
     like_count = IntegerProperty()
+
+class InstagramPost(Post):
     comment_count = IntegerProperty()
     media_type = StringProperty()
 
-class TweeterPost(DjangoNode):
-    uid = UniqueIdProperty()
-    created = DateTimeProperty(default=datetime.utcnow)
-    user = RelationshipTo(User, 'BELONGS_TO')
-    hashtags = RelationshipTo('HashTag', 'HAS_HASHTAG')
-
-    like_count = IntegerProperty()
+class TwitterPost(Post):
     retweeted_count = IntegerProperty()
     reply_count = IntegerProperty()
 
