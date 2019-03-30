@@ -7,6 +7,8 @@ COPY app/ .
 RUN pip install --no-cache-dir -r requirements/requirements-celery.txt
 
 CMD [ "celery", "worker", \
-				"-B", \
-			   	"-A", "ocupa2", \
-               	"--concurrency", "2"]
+		"-A", "ocupa2", \
+		"-B", \
+		"-l", "INFO", \
+		"--scheduler", "django_celery_beat.schedulers:DatabaseScheduler"]
+

@@ -1,0 +1,104 @@
+[
+  {
+    "model": "django_celery_beat.intervalschedule",
+    "pk": 1,
+    "fields": {
+      "every": 1,
+      "period": "minutes"
+    }
+  },
+  {
+    "model": "django_celery_beat.crontabschedule",
+    "pk": 1,
+    "fields": {
+      "minute": "0",
+      "hour": "4",
+      "day_of_week": "*",
+      "day_of_month": "*",
+      "month_of_year": "*",
+      "timezone": "UTC"
+    }
+  },
+  {
+    "model": "django_celery_beat.periodictasks",
+    "pk": 1,
+    "fields": {
+      "last_update": "2019-03-30T16:40:37.813Z"
+    }
+  },
+  {
+    "model": "django_celery_beat.periodictask",
+    "pk": 1,
+    "fields": {
+      "name": "Retrieve Twitter",
+      "task": "ocupa2app.tasks.refresh_social_network",
+      "interval": 1,
+      "crontab": null,
+      "solar": null,
+      "args": "[\"twitter\", [\"hashtags_fitness\", \"hashtags_food\"]]",
+      "kwargs": "{}",
+      "queue": null,
+      "exchange": null,
+      "routing_key": null,
+      "priority": null,
+      "expires": null,
+      "one_off": false,
+      "start_time": null,
+      "enabled": true,
+      "last_run_at": "2019-03-30T16:40:15.264Z",
+      "total_run_count": 9,
+      "date_changed": "2019-03-30T16:40:35.265Z",
+      "description": "Retrieve Data from Twitter"
+    }
+  },
+  {
+    "model": "django_celery_beat.periodictask",
+    "pk": 2,
+    "fields": {
+      "name": "Retrieve Instagram",
+      "task": "ocupa2app.tasks.refresh_social_network",
+      "interval": 1,
+      "crontab": null,
+      "solar": null,
+      "args": "[\"instagram\", [\"hashtags_fitness\", \"hashtags_food\"]]",
+      "kwargs": "{}",
+      "queue": null,
+      "exchange": null,
+      "routing_key": null,
+      "priority": null,
+      "expires": null,
+      "one_off": false,
+      "start_time": "2019-03-30T00:00:00Z",
+      "enabled": true,
+      "last_run_at": "2019-03-30T16:40:29.032Z",
+      "total_run_count": 10,
+      "date_changed": "2019-03-30T16:40:35.306Z",
+      "description": "Retrieve Data from Instagram"
+    }
+  },
+  {
+    "model": "django_celery_beat.periodictask",
+    "pk": 3,
+    "fields": {
+      "name": "celery.backend_cleanup",
+      "task": "celery.backend_cleanup",
+      "interval": null,
+      "crontab": 1,
+      "solar": null,
+      "args": "[]",
+      "kwargs": "{}",
+      "queue": null,
+      "exchange": null,
+      "routing_key": null,
+      "priority": null,
+      "expires": null,
+      "one_off": false,
+      "start_time": null,
+      "enabled": true,
+      "last_run_at": null,
+      "total_run_count": 0,
+      "date_changed": "2019-03-30T16:40:37.836Z",
+      "description": ""
+    }
+  }
+]

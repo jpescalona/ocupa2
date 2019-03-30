@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -29,22 +30,28 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django_celery_results',
-    'django_celery_beat',
-    'constance',
-    'constance.backends.database',
-    'bootstrap4',
-    'django_neomodel',
-    'ocupa2app',
+COMMON_APPS = [
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'django_celery_results',
+        'django_celery_beat',
+        'constance',
+        'constance.backends.database',
+        'django_neomodel',
+        'ocupa2app',
 ]
+
+if sys.argv[0].endswith('celery'):
+    INSTALLED_APPS = COMMON_APPS + [
+    ]
+else:
+    INSTALLED_APPS = COMMON_APPS + [
+        'bootstrap4',
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

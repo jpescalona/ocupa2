@@ -8,6 +8,8 @@ services:
       - NEO4J_AUTH=none
   redis:
     image: "redis:4.0"    
+    ports:
+      - "6379:6379"
   celery:
     build: 
       context: .
