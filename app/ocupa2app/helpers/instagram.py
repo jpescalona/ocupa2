@@ -1,4 +1,7 @@
+from ocupa2app.models import *
 import requests
+import logging
+
 
 class Instagram:
 
@@ -21,6 +24,7 @@ class Instagram:
 
     # TODO Memoize in database
     def get_hashtag(self, hashtag):
+        """ Returns the ID of a hashtag """
         if hashtag not in self.hashtag_cache:
             url = Instagram.BASE_URL + 'ig_hashtag_search'
             params = {'q': hashtag, 'user_id': self.user_id }
@@ -66,9 +70,34 @@ class Instagram:
         return self.user_cache[user_id]
 
     def extend_posts(self, posts):
-        """ Adds to each post the username field added to the posts """
+        """ Adds to each post the username field added to the posts. """
         for post in posts:
             media = self.get_media(post['id'])
             post['username'] = media[0]['userId']
 
-        
+
+def get_user_object(user_id):
+    pass
+
+def fetch_posts_and_users_for_tag(tag, logger=None):
+    if not logger:
+        logger = logging.getLogger(__name__)
+    ig = Instagram('pablo@docecosas.com')
+    """ It will download and store every item in the model """
+    logger.info('Fetching posts for tag %s', tag)
+    hashtag_id = ig.get_hashtag(tag)
+    recent_posts = ig.get_recent_posts(hashtag_id)
+    logger.info('Received %d recent posts', len(recent_posts))
+    top_posts = ig.get_top_posts(hashtag_id)
+    logger.info('Received %d top posts', len(top_posts))
+    posts = recent_posts + top_posts
+    for post in posts:
+        IP = InstagramPost.nodes.get_or_none(uid=post['id'])
+        if IP is None:
+            logger.info('Creating post %s', post['id'])
+            media = ig.get_media(post['id'])
+            # TODO Assign to user from media
+            IP = InstagramPost.create({'uid': post['id'],'like_count': post['likeCount'],'comment_count': post['commentsCount'],'media_type': post['mediaType']})[0]
+            logger.info('Created %s', IP)
+        logger.info('Connecting post %s to %s', post['id'], tag)
+        IP.hashtags.connect(HashTag.nodes.get(name=tag))
