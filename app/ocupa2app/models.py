@@ -43,4 +43,4 @@ class HashTag(DjangoNode):
     uid = UniqueIdProperty()
     name = StringProperty(unique_index=True)
     category = RelationshipTo(Category, 'IS_FROM')
-
+    post = RelationshipFrom(Post, 'HAS_HASHTAG')
