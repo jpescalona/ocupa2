@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
       "every": 1,
-      "period": "minutes"
+      "period": "hours"
     }
   },
   {
@@ -23,7 +23,7 @@
     "model": "django_celery_beat.periodictasks",
     "pk": 1,
     "fields": {
-      "last_update": "2019-03-30T16:40:37.813Z"
+      "last_update": "2019-03-31T11:07:15.064Z"
     }
   },
   {
@@ -35,7 +35,7 @@
       "interval": 1,
       "crontab": null,
       "solar": null,
-      "args": "[\"twitter\", [\"hashtags_fitness\", \"hashtags_food\"]]",
+      "args": "[\"twitter\"]",
       "kwargs": "{}",
       "queue": null,
       "exchange": null,
@@ -60,7 +60,7 @@
       "interval": 1,
       "crontab": null,
       "solar": null,
-      "args": "[\"instagram\", [\"hashtags_fitness\", \"hashtags_food\"]]",
+      "args": "[\"instagram\"]",
       "kwargs": "{}",
       "queue": null,
       "exchange": null,
@@ -110,7 +110,7 @@
       "interval": 1,
       "crontab": null,
       "solar": null,
-      "args": "[\"instagram\", [\"hashtags_fitness\", \"hashtags_food\"]]",
+      "args": "[\"instagram\"]",
       "kwargs": "{}",
       "queue": null,
       "exchange": null,
@@ -135,7 +135,7 @@
       "interval": 1,
       "crontab": null,
       "solar": null,
-      "args": "[\"twitter\", [\"hashtags_fitness\", \"hashtags_food\"]]",
+      "args": "[\"twitter\"]",
       "kwargs": "{}",
       "queue": null,
       "exchange": null,
@@ -180,7 +180,7 @@
     "model": "django_celery_beat.periodictask",
     "pk": 7,
     "fields": {
-      "name": "Calculate Karma Twitter",
+      "name": "Like Twitter Posts",
       "task": "ocupa2app.tasks.like_posts",
       "interval": 1,
       "crontab": null,
@@ -197,7 +197,7 @@
       "enabled": true,
       "last_run_at": "2019-03-30T16:40:29.032Z",
       "total_run_count": 10,
-      "date_changed": "2019-03-30T16:40:35.306Z",
+      "date_changed": "2019-03-31T11:07:15.067Z",
       "description": "Perform the walkthrough all posts and determine those that will be liked on Twitter"
     }
   }

@@ -15,6 +15,8 @@ logger = get_task_logger(__name__)
 @task(bind=True)
 def refresh_social_network(self, social_network_name, categories=[], max_operations=None):
     print(logger)
+    if not categories:
+        categories = [category.name for category in Category.nodes.all()]
     try:
         helper_module_name = '{}.helpers.{}'.format(
             SocialNetwork.__module__.split('.')[0],
@@ -99,6 +101,8 @@ def shall_we_follow_the_user(karma):
 
 @task(bind=True)
 def calculate_karma(self, social_network_name, categories=[]):
+    if not categories:
+        categories = [category.name for category in Category.nodes.all()]
     for category in categories:
         category = Category.nodes.get(name=category)
         social_network = SocialNetwork.nodes.get(name=social_network_name)
