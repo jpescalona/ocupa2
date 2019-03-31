@@ -42,8 +42,19 @@ class Twitter(APIBase):
 
     def unfollow(self, user_id):
         url = Twitter.BASE_URL + 'friendships/destroy.json?user_id={id}'.format(id=user_id)
-        d = wself.get(url)
+        d = self.get(url)
         return d
+
+    def like(self, post_id):
+        url = Twitter.BASE_URL + 'favorites/create.json?id={id}'.format(id=post_id)
+        d = self.get(url)
+        return d
+
+    def unlike(self, post_id):
+        url = Twitter.BASE_URL + 'favorites/destroy.json?id={id}'.format(id=post_id)
+        d = self.get(url)
+        return d
+
 
 def fetch_posts_and_users_for_tag(tag, logger=None, max_operations=None):
     if not logger:
@@ -76,5 +87,6 @@ def fetch_posts_and_users_for_tag(tag, logger=None, max_operations=None):
                 user.social_network.connect(social_network)
                 logger.info('Created user %s', user)
             user.post.connect(TP)
+            TP.user.connect(user)
         logger.info('Connecting post %s to %s', post['tweetId'], tag)
         TP.hashtags.connect(HashTag.nodes.get(name=tag))

@@ -203,6 +203,9 @@ CONSTANCE_CONFIG = {
     'KARMA_MINIMUM_TWITTER_RETWEETS': (10, 'Minimum karma value for retweets on published posts'),
     'KARMA_MINIMUM_TWITTER_REPLIES': (1, 'Minimum karma value for replies on published posts'),
     'KARMA_MINIMUM_INSTAGRAM_COMMENTS': (10, 'Minimum karma value for comments on published posts'),
+    'LIKES_MINIUM_COUNT': (100, 'Mininum number of likes of the post to like the post'),
+    'FOLLOWERS_MINIMUM_COUNT': (500, 'Minimum number of followers to like a post'),
+    'POSTED_POSTS_MINIMUM_COUNT': (100, 'Minimum number of posts already published by the user to like the new post'),
 }
 
 CONSTANCE_CONFIG_FIELDSETS = {

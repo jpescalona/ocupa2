@@ -150,5 +150,55 @@
       "date_changed": "2019-03-30T16:40:35.306Z",
       "description": "Calculate users karma from Twitter"
     }
+  },
+  {
+    "model": "django_celery_beat.periodictask",
+    "pk": 6,
+    "fields": {
+      "name": "Like Instagram Posts",
+      "task": "ocupa2app.tasks.like_posts",
+      "interval": 1,
+      "crontab": null,
+      "solar": null,
+      "args": "[\"instagram\"]",
+      "kwargs": "{}",
+      "queue": null,
+      "exchange": null,
+      "routing_key": null,
+      "priority": null,
+      "expires": null,
+      "one_off": false,
+      "start_time": "2019-03-30T00:00:00Z",
+      "enabled": true,
+      "last_run_at": "2019-03-30T16:40:29.032Z",
+      "total_run_count": 10,
+      "date_changed": "2019-03-30T16:40:35.306Z",
+      "description": "Perform the walkthrough all posts and determine those that will be liked on Instagram"
+    }
+  },
+  {
+    "model": "django_celery_beat.periodictask",
+    "pk": 7,
+    "fields": {
+      "name": "Calculate Karma Twitter",
+      "task": "ocupa2app.tasks.like_posts",
+      "interval": 1,
+      "crontab": null,
+      "solar": null,
+      "args": "[\"twitter\"]",
+      "kwargs": "{}",
+      "queue": null,
+      "exchange": null,
+      "routing_key": null,
+      "priority": null,
+      "expires": null,
+      "one_off": false,
+      "start_time": "2019-03-30T00:00:00Z",
+      "enabled": true,
+      "last_run_at": "2019-03-30T16:40:29.032Z",
+      "total_run_count": 10,
+      "date_changed": "2019-03-30T16:40:35.306Z",
+      "description": "Perform the walkthrough all posts and determine those that will be liked on Twitter"
+    }
   }
 ]

@@ -88,6 +88,19 @@ class Instagram(APIBase):
         d = self.get(url, params)
         return d
 
+    def like(self, post_id):
+        url = Instagram.BASE_URL + '{id}/like'.format(id=post_id)
+        params = {'action': 'like'}
+        d = self.get(url, params)
+        return d
+
+    def unlike(self, post_id):
+        url = Instagram.BASE_URL + '{id}/like'.format(id=post_id)
+        params = {'action': 'unlike'}
+        d = self.get(url, params)
+        return d
+
+
 def fetch_posts_and_users_for_tag(tag, logger=None, max_operations=None):
     """ It will download and store every item in the model """
     if not logger:
@@ -127,6 +140,7 @@ def fetch_posts_and_users_for_tag(tag, logger=None, max_operations=None):
                 user.social_network.connect(social_network)
                 logger.info('Created user %s', user)
             user.post.connect(IP)
+            IP.user.connect(user)
             logger.info('Created %s', IP)
         logger.info('Connecting post %s to %s', post['id'], tag)
         hashtag = HashTag.nodes.get(name=tag)

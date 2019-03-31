@@ -20,7 +20,7 @@ class User(DjangoNode):
     follower_count = IntegerProperty()
     post = RelationshipTo('Post', 'BELONGS_TO')
     karma = RelationshipFrom('Karma', 'HAS_KARMA')
-    is_followed = BooleanProperty()
+    is_followed = BooleanProperty(default=False)
 
 class Post(DjangoNode):
     uid = StringProperty()
@@ -28,7 +28,7 @@ class Post(DjangoNode):
     user = RelationshipTo(User, 'BELONGS_TO')
     hashtags = RelationshipTo('HashTag', 'HAS_HASHTAG')
     like_count = IntegerProperty()
-    is_liked = BooleanProperty()
+    is_liked = BooleanProperty(default=False)
 
 class InstagramPost(Post):
     comment_count = IntegerProperty()

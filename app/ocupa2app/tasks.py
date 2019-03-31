@@ -151,3 +151,65 @@ def calculate_karma(self, social_network_name, categories=[]):
                         }
                     )
 
+
+def shall_we_like_the_post(post):
+    return post.user.follower_count > config.FOLLOWERS_MINIMUM_COUNT and \
+           post.user.media_count > config.POSTED_POSTS_MINIMUM_COUNT and \
+           post.like_count > config.LIKES_MINIUM_COUNT
+
+
+def like_the_post(post, social_network):
+    if social_network.name.lower() == 'instagram':
+        iq = Instagram(config.INSTAGRAM_ACCOUNT)
+        iq.like(post.uid)
+    elif social_network.name.lower() == 'twitter':
+        it = Twitter(config.TWITTER_ACCOUNT)
+        it.like(post.uid)
+
+
+def unlike_the_post(post, social_network):
+    if social_network.name.lower() == 'instagram':
+        iq = Instagram(config.INSTAGRAM_ACCOUNT)
+        iq.like(post.uid)
+    elif social_network.name.lower() == 'twitter':
+        it = Twitter(config.TWITTER_ACCOUNT)
+        it.like(post.uid)
+
+@task(bind=True)
+def like_posts(self, social_network_name):
+    social_network = SocialNetwork.nodes.get(name=social_network_name)
+
+    # We will gather the users ordered by not followed and their follower count
+    for user in social_network.user.order_by('-is_followed', '-follower_count').all():
+        for post in user.post.order_by('-is_liked', '-like_count'):
+            if shall_we_like_the_post(post):
+                if not post.is_liked:
+                    like_the_post(post, social_network)
+                    post.is_liked = True
+                    post.save()
+                    log(
+                        user=None,
+                        action="POST_LIKED",
+                        extra={
+                            "title": "Automatically liked a post from user {} on {}".format(user.name,
+                                                                                              social_network.name),
+                            "user": user.name,
+                            "social_network": social_network.name
+                        }
+                    )
+            elif shall_we_follow_the_user(post):
+                if post.is_liked:
+                    unlike_the_post(post, social_network)
+                    post.is_liked = False
+                    post.save()
+                    log(
+                        user=None,
+                        action="POST_UNLIKED",
+                        extra={
+                            "title": "Automatically unliked a post from user {} on {}".format(user.name,
+                                                                                              social_network.name),
+                            "user": user.name,
+                            "social_network": social_network.name
+                        }
+                    )
+
