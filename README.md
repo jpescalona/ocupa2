@@ -72,3 +72,11 @@ En caso de que se pudiera acceder al texto de los posts se podrían analizar sus
 Es posible instalar en un sistema que tenga docker y docker compose corriendo. El script `start.sh` generará los containers y los lanzará, además de inicializar las tablas. A partir de ese momento cada hora se ejecutará la recolección de datos.
 
 Una vez inicializado es posible acceder a la aplicación en http://127.0.0.1:8000
+
+## Uso avanzado
+
+Es posible forzar la ejecución de tareas invocando comandos de Django. Desde dentro del container de Django podrías correr el siguiente comando para descargar los datos y forzar el recálculo del karma para las categorías `hashtags_food` y `hashtags_fitness`.
+
+     python ./manage.py load_initial_data twitter hashtags_food hashtags_fitness
+
+Las redes sociales soportadas son `twitter` e `instagram`.

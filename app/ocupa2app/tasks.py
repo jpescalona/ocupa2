@@ -35,9 +35,11 @@ def refresh_social_network(self, social_network_name, categories=[], max_operati
             logger.info('Fetching posts for tag %s', tag)
             helper_module.fetch_posts_and_users_for_tag(tag, logger=logger, max_operations=max_operations)
 
-def get_karma_for(user, attribute):
+def get_karma_for(user, category, attribute):
     """ Returns karma calculated for the Posts of an user using
     the attribute parameter as the property to evaluate """
+    posts = user.post.all()
+    category_posts = [p for p in posts if category in [h.category for h in p.hashtags.all()]]
     counts = [getattr(p, attribute) for p in user.post.all()]
     stdev = statistics.stdev(counts)
     if stdev == 0:
@@ -46,28 +48,28 @@ def get_karma_for(user, attribute):
     karma = round(100*median/stdev)
     return karma
 
-def get_likes_karma(user):
-    return get_karma_for(user, 'like_count')
+def get_likes_karma(user, category):
+    return get_karma_for(user, category, 'like_count')
 
-def get_replies_karma(user):
-    return get_karma_for(user, 'reply_count')
+def get_replies_karma(user, category):
+    return get_karma_for(user, category, 'reply_count')
 
-def get_retweets_karma(user):
-    return get_karma_for(user, 'retweeted_count')
+def get_retweets_karma(user, category):
+    return get_karma_for(user, category, 'retweeted_count')
 
-def get_comments_karma(user):
-    return get_karma_for(user, 'comment_count')
+def get_comments_karma(user, category):
+    return get_karma_for(user, category, 'comment_count')
 
-def get_karma(user):
-    karma = {'likes': get_likes_karma(user)}
+def get_karma(user, category):
+    karma = {'likes': get_likes_karma(user, category)}
     if user.social_network.single().name.lower() == 'instagram':
         karma.update({
-            'comments': get_comments_karma(user),
+            'comments': get_comments_karma(user, category),
         })
     elif user.social_network.single().name.lower() == 'twitter':
         karma.update({
-            'replies': get_replies_karma(user),
-            'retweets': get_retweets_karma(user),
+            'replies': get_replies_karma(user, category),
+            'retweets': get_retweets_karma(user, category),
         })
     else:
         karma = {}
@@ -109,8 +111,14 @@ def calculate_karma(self, social_network_name, categories=[]):
 
         for user in social_network.user.all():
             # Calculate the karma for this social network
-            new_karma = get_karma(user)
-            current_karma = user.karma.get_or_none()
+            new_karma = get_karma(user, category)
+            karmas = user.karma.all()
+            current_karmas = [k for k in karmas if k.category == category]
+            if current_karmas:
+                current_karma = current_karmas[0]
+            else:
+                current_karma = None
+            #current_karma = user.karma.get_or_none()
             if current_karma is None:
                 # Create Karma for this social network
                 if social_network_name.lower() == 'instagram':
