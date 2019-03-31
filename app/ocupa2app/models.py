@@ -28,6 +28,7 @@ class Post(DjangoNode):
     user = RelationshipTo(User, 'BELONGS_TO')
     hashtags = RelationshipTo('HashTag', 'HAS_HASHTAG')
     like_count = IntegerProperty()
+    is_liked = BooleanProperty()
 
 class InstagramPost(Post):
     comment_count = IntegerProperty()

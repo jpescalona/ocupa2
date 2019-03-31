@@ -199,9 +199,15 @@ CONSTANCE_CONFIG = {
     'TWITTER_ACCOUNT': ('pablo@pablo.com', 'Account to connect to Twitter'),
     'TWITTER_LIMIT_TIME_RATE': (60, 'Time Rate limit'),
     'TWITTER_LIMIT_MAX_CALLS': (200, 'Maximum number of calls per time rate limit'),
+    'KARMA_MINIMUM_LIKES': (10, 'Minimum karma value for likes on published posts'),
+    'KARMA_MINIMUM_TWITTER_RETWEETS': (10, 'Minimum karma value for retweets on published posts'),
+    'KARMA_MINIMUM_TWITTER_REPLIES': (1, 'Minimum karma value for replies on published posts'),
+    'KARMA_MINIMUM_INSTAGRAM_COMMENTS': (10, 'Minimum karma value for comments on published posts'),
 }
 
 CONSTANCE_CONFIG_FIELDSETS = {
-    'Instagram Options': ('INSTAGRAM_ACCOUNT', 'INSTAGRAM_LIMIT_TIME_RATE', 'INSTAGRAM_LIMIT_MAX_CALLS', ),
-    'Twitter Options': ('TWITTER_ACCOUNT', 'TWITTER_LIMIT_TIME_RATE', 'TWITTER_LIMIT_MAX_CALLS', ),
+    'Social Network - Instagram Options': ('INSTAGRAM_ACCOUNT', 'INSTAGRAM_LIMIT_TIME_RATE', 'INSTAGRAM_LIMIT_MAX_CALLS', ),
+    'Social Network - Twitter Options': ('TWITTER_ACCOUNT', 'TWITTER_LIMIT_TIME_RATE', 'TWITTER_LIMIT_MAX_CALLS', ),
+    'Karma Options': ('KARMA_MINIMUM_LIKES', 'KARMA_MINIMUM_TWITTER_RETWEETS', 'KARMA_MINIMUM_TWITTER_REPLIES',
+                      'KARMA_MINIMUM_INSTAGRAM_COMMENTS')
 }

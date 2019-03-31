@@ -90,9 +90,10 @@ def unfollow_the_user(user):
 
 def shall_we_follow_the_user(karma):
     if karma.user.single().social_network.single().name.lower() == 'instagram':
-        return karma.likes > 10 and karma.comments > 3
+        return karma.likes > config.KARMA_MINIMUM_LIKES and karma.comments > config.KARMA_MINIMUM_INSTAGRAM_COMMENTS
     elif karma.user.single().social_network.single().name.lower() == 'twitter':
-        return karma.likes > 10 and karma.replies > 1 and karma.retweets > 10
+        return karma.likes > config.KARMA_MINIMUM_LIKES and karma.replies > config.KARMA_MINIMUM_TWITTER_REPLIES \
+               and karma.retweets > config.KARMA_MINIMUM_TWITTER_RETWEETS
     else:
         return False
 
