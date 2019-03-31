@@ -75,6 +75,18 @@ class Instagram:
             media = self.get_media(post['id'])
             post['username'] = media[0]['userId']
 
+    def follow(self, user_id):
+        url = Instagram.BASE_URL + '{id}/follow'.format(id=user_id)
+        params = {'action': 'follow'}
+        d = requests.get(url, params)
+        return d
+
+    def unfollow(self, user_id):
+        url = Instagram.BASE_URL + '{id}/follow'.format(id=user_id)
+        params = {'action': 'unfollow'}
+        d = requests.get(url, params)
+        return d
+
 
 def get_user_object(user_id):
     pass

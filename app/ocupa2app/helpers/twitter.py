@@ -4,7 +4,7 @@ class Twitter:
 
     BASE_URL = 'http://hackathon.ocupa2.com/twitter/1.1/'
 
-    def __init__(self,user_id, token=None):
+    def __init__(self, user_id, token=None):
         self.token = token
         self.user_id = user_id
         self.cache = dict()
@@ -44,4 +44,12 @@ class Twitter:
         d = requests.get(url, params)
         return d
 
-        
+    def follow(self, user_id):
+        url = Twitter.BASE_URL + 'friendships/create.json?user_id={id}'.format(id=user_id)
+        d = requests.get(url)
+        return d
+
+    def unfollow(self, user_id):
+        url = Twitter.BASE_URL + 'friendships/destroy.json?user_id={id}'.format(id=user_id)
+        d = requests.get(url)
+        return d

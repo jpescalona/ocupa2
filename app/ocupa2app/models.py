@@ -1,13 +1,15 @@
 from datetime import datetime
+
+from django.db import models
 from django_neomodel import DjangoNode
 from neomodel import StringProperty, DateTimeProperty, UniqueIdProperty, IntegerProperty, \
-    RelationshipTo, RelationshipFrom
+    RelationshipTo, RelationshipFrom, FloatProperty
+
 
 class SocialNetwork(DjangoNode):
     uid = UniqueIdProperty()
     name = StringProperty(unique_index=True)
     user = RelationshipFrom('User', 'HAS_ACCOUNT')
-
 
 class User(DjangoNode):
     uid = StringProperty()
@@ -18,6 +20,7 @@ class User(DjangoNode):
     media_count = IntegerProperty()
     follower_count = IntegerProperty()
     post = RelationshipTo('Post', 'BELONGS_TO')
+    karma = RelationshipFrom('Karma', 'HAS_KARMA')
 
 class Post(DjangoNode):
     uid = StringProperty()
@@ -44,3 +47,16 @@ class HashTag(DjangoNode):
     name = StringProperty(unique_index=True)
     category = RelationshipTo(Category, 'IS_FROM')
     posts = RelationshipFrom(Post, 'HAS_HASHTAG')
+
+class Karma(DjangoNode):
+    user = RelationshipTo(User, 'HAS_KARMA')
+    category = RelationshipTo(Category, 'HAS_KARMA')
+    likes = FloatProperty()
+
+class InstagramKarma(Karma):
+    comments = FloatProperty()
+
+class TwitterKarma(Karma):
+    retweets = FloatProperty()
+    replies = FloatProperty()
+

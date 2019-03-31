@@ -44,6 +44,7 @@ COMMON_APPS = [
         'django_neomodel',
         'ocupa2app',
         'django_extensions',
+        'pinax.eventlog',
 ]
 
 if sys.argv[0].endswith('celery'):

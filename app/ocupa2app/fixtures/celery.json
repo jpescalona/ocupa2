@@ -100,5 +100,55 @@
       "date_changed": "2019-03-30T16:40:37.836Z",
       "description": ""
     }
+  },
+  {
+    "model": "django_celery_beat.periodictask",
+    "pk": 4,
+    "fields": {
+      "name": "Calculate Karma Instagram",
+      "task": "ocupa2app.tasks.calculate_karma",
+      "interval": 1,
+      "crontab": null,
+      "solar": null,
+      "args": "[\"instagram\", [\"hashtags_fitness\", \"hashtags_food\"]]",
+      "kwargs": "{}",
+      "queue": null,
+      "exchange": null,
+      "routing_key": null,
+      "priority": null,
+      "expires": null,
+      "one_off": false,
+      "start_time": "2019-03-30T00:00:00Z",
+      "enabled": true,
+      "last_run_at": "2019-03-30T16:40:29.032Z",
+      "total_run_count": 10,
+      "date_changed": "2019-03-30T16:40:35.306Z",
+      "description": "Calculate users karma from Instagram"
+    }
+  },
+  {
+    "model": "django_celery_beat.periodictask",
+    "pk": 5,
+    "fields": {
+      "name": "Calculate Karma Twitter",
+      "task": "ocupa2app.tasks.calculate_karma",
+      "interval": 1,
+      "crontab": null,
+      "solar": null,
+      "args": "[\"twitter\", [\"hashtags_fitness\", \"hashtags_food\"]]",
+      "kwargs": "{}",
+      "queue": null,
+      "exchange": null,
+      "routing_key": null,
+      "priority": null,
+      "expires": null,
+      "one_off": false,
+      "start_time": "2019-03-30T00:00:00Z",
+      "enabled": true,
+      "last_run_at": "2019-03-30T16:40:29.032Z",
+      "total_run_count": 10,
+      "date_changed": "2019-03-30T16:40:35.306Z",
+      "description": "Calculate users karma from Twitter"
+    }
   }
 ]
