@@ -4,5 +4,28 @@
 {% block title %}#HackathonOcupa2{% endblock %}
 
 {% block content %}
+    <h2>Registro de eventos</h2>
+    <table class="table responsive">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Usuario</th>
+                <th>Accion</th>
+                <th>Informacion</th>
+                <th>Red Social</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in object_list %}
+                <tr>
+                    <td>{{ log.timestamp }}</td>
+                    <td>{{ log.extra.user }}</td>
+                    <td>{{ log.action }}</td>
+                    <td>{{ log.extra.title }}</td>
+                    <td>{{ log.extra.social_network }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     
 {% endblock %}
