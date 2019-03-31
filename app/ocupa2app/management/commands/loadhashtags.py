@@ -22,7 +22,7 @@ class Command(BaseCommand):
                 if category is None:
                     category = Category.create({'name': category_name})[0]
                 for hashtag_name in hashtags:
-                    print('Creating ', hashtag_name)
+                    print('Creating hashtag with name', hashtag_name)
                     hashtag = HashTag.nodes.get_or_none(name=hashtag_name)
                     if hashtag is None:
                         hashtag = HashTag.create({'name': hashtag_name})[0]
