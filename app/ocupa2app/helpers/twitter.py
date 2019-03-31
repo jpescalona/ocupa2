@@ -1,4 +1,7 @@
 import requests
+import logging
+from ocupa2app.models import TwitterPost, SocialNetwork, HashTag, User
+
 
 class Twitter:
 
@@ -18,30 +21,44 @@ class Twitter:
         return self.token
 
     def get_posts_by_hashtag(self, hashtag):
+        """ Returns a list of tweets """
         url = Twitter.BASE_URL + 'search/tweets.json'
-        params = {'hashtag': hashtag}
-        d = requests.get(url, params)
-        return d.json()
-    
-    def get_top_posts(self, hashtag_id):
-        url = Twitter.BASE_URL + '{id}/top_media'.format(id=hashtag_id)
-        params = {'user_id': self.user_id}
-        d = requests.get(url, params)
-        try:
-            return d.json()
-        except:
-            return []
-
-    def get_media(self, media_id):
-        url = Twitter.BASE_URL + 'media/{id}'.format(id=media_id)
-        params = {'fields': 'id,comments_count,like_count,media_type,username'}
+        params = {'q': hashtag}
         d = requests.get(url, params)
         return d.json()
 
-    def get_user(self, user_id):
-        url = Twitter.BASE_URL + '{id}'.format(id=user_id)
-        params = {'fields': 'id,username,media_count,follower_count'}
-        d = requests.get(url, params)
-        return d
+    def get_post(self, tweet_id):
+        """ Returns a single post """
+        url = Twitter.BASE_URL + 'statuses/retweets/{id}.json'.format(id=tweet_id)
+        d = requests.get(url)
+        return d.json()[0]
 
-        
+def fetch_posts_and_users_for_tag(tag, logger=None):
+    if not logger:
+        logger = logging.getLogger(__name__)
+    social_network = SocialNetwork.nodes.get_or_none(name='twitter')
+    if social_network is None:
+        social_network = SocialNetwork.create({'name': 'twitter'})[0]
+    tw = Twitter('pablo@docecosas.com')
+    """ It will download and store every item in the model """
+    logger.info('Fetching tweets for tag %s', tag)
+    posts = tw.get_posts_by_hashtag(tag)
+    logger.info('Received %d tweets', len(posts))
+    for post in posts:
+        TP = TwitterPost.nodes.get_or_none(uid=post['tweetId'])
+        if TP is None:
+            media = tw.get_post(post['tweetId'])
+            logger.info('Creating post %s', post['tweetId'])
+            TP = TwitterPost.create({'uid': post['tweetId'],'like_count': media['likeCount'],'reply_count': media['replyCount'],'retweeted_count': media['retweetCount']})[0]
+            logger.info('Created %s from %s', TP, post)
+            user_id = post['userid']
+            user = social_network.user.get_or_none(uid=user_id)
+            logger.info('Found user %s', user) 
+            if not user:
+                user = User.create({'uid': user_id, 'name': post['name']})[0]
+                logger.info('Created user %s', user)
+                user.social_network.connect(social_network)
+                logger.info('Created user %s', user)
+            user.post.connect(TP)
+        logger.info('Connecting post %s to %s', post['tweetId'], tag)
+        TP.hashtags.connect(HashTag.nodes.get(name=tag))
