@@ -1,6 +1,6 @@
 ![alt text][logo]
 
-[logo]: culebras.png "Los Culebra"
+[logo]: images/culebras.png "Los Culebra"
 
 # Reto ocupa2
 
