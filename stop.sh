@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker-compose status
+docker-compose stop
