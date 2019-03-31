@@ -66,3 +66,9 @@ Teniendo los datos sobre interacción de usuarios se debería aplicar otro funci
 ## Análisis del mensaje
 
 En caso de que se pudiera acceder al texto de los posts se podrían analizar sus mensajes con técnicas de Procesamiento del Lenguaje Natural y los resultados de esos análisis deberían influir en el comportamiento del sistema, por ejemplo el cambio más simple sería sólo dar likes a mensajes de tono positivo.
+
+# Instalación
+
+Es posible instalar en un sistema que tenga docker y docker compose corriendo. El script `start.sh` generará los containers y los lanzará, además de inicializar las tablas. A partir de ese momento cada hora se ejecutará la recolección de datos.
+
+Una vez inicializado es posible acceder a la aplicación en http://127.0.0.1:8000
