@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from ocupa2app.tasks import refresh_social_network
+from ocupa2app.tasks import refresh_social_network, calculate_karma
 
 class Command(BaseCommand):
     help = 'Loads initial data into the social network, specify the categories'
@@ -10,5 +10,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for social_network in options['social_network']:
-            result = refresh_social_network.apply(([social_network]),{'categories': options['categories']})
-            print(result)
+            #result = refresh_social_network.apply(([social_network]),{'categories': options['categories']})
+            #print(result)
+            print('Recalculating karma')
+            result = calculate_karma.apply(([social_network]),{'categories': options['categories']})
+            print(result.result)

@@ -6,3 +6,4 @@ django-celery-beat
 django-constance[database]
 django-extensions
 pinax-eventlog
+PyYAML
