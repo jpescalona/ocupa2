@@ -193,13 +193,15 @@ CELERY_RESULT_BACKEND = 'django-db'
 # Constance
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
 CONSTANCE_CONFIG = {
+    'INSTAGRAM_ACCOUNT': ('pablo@pablo.com', 'Account to connect to Instagram'),
     'INSTAGRAM_LIMIT_TIME_RATE': (15, 'Time Rate limit'),
     'INSTAGRAM_LIMIT_MAX_CALLS': (15, 'Maximum number of calls per time rate limit'),
+    'TWITTER_ACCOUNT': ('pablo@pablo.com', 'Account to connect to Twitter'),
     'TWITTER_LIMIT_TIME_RATE': (60, 'Time Rate limit'),
     'TWITTER_LIMIT_MAX_CALLS': (200, 'Maximum number of calls per time rate limit'),
 }
 
 CONSTANCE_CONFIG_FIELDSETS = {
-    'Instagram Options': ('INSTAGRAM_LIMIT_TIME_RATE', 'INSTAGRAM_LIMIT_MAX_CALLS', ),
-    'Twitter Options': ('TWITTER_LIMIT_TIME_RATE', 'TWITTER_LIMIT_MAX_CALLS', ),
+    'Instagram Options': ('INSTAGRAM_ACCOUNT', 'INSTAGRAM_LIMIT_TIME_RATE', 'INSTAGRAM_LIMIT_MAX_CALLS', ),
+    'Twitter Options': ('TWITTER_ACCOUNT', 'TWITTER_LIMIT_TIME_RATE', 'TWITTER_LIMIT_MAX_CALLS', ),
 }

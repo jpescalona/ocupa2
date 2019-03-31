@@ -119,7 +119,6 @@ def calculate_karma(self, social_network_name, categories=[]):
                 current_karma.__dict__.update(new_karma)
                 current_karma.save()
 
-
             if shall_we_follow_the_user(current_karma):
                 if not user.is_followed:
                     follow_the_user(user)
