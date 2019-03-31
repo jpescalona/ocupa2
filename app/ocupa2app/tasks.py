@@ -6,6 +6,8 @@ from .helpers.twitter import Twitter
 from constance import config
 from pinax.eventlog.models import log
 import neomodel
+import statistics 
+
 
 logger = get_task_logger(__name__)
 
@@ -31,22 +33,32 @@ def refresh_social_network(self, social_network_name, categories=[]):
             logger.info('Fetching posts for tag %s', tag)
             helper_module.fetch_posts_and_users_for_tag(tag,logger=logger)
 
+def get_karma_for(user, attribute):
+    """ Returns karma calculated for the Posts of an user using
+    the attribute parameter as the property to evaluate """
+    counts = [getattr(p, attribute) for p in user.post.all()]
+    stdev = statistics.stdev(counts)
+    if stdev == 0:
+        stdev = 0.1
+    median = statistics.median(counts)
+    karma = round(100*median/stdev)
+    return karma
 
 def get_likes_karma(user):
-    pass
+    return get_karma_for(user, 'like_count')
 
 def get_replies_karma(user):
-    pass
+    return get_karma_for(user, 'reply_count')
 
 def get_retweets_karma(user):
-    pass
+    return get_karma_for(user, 'retweeted_count')
 
 def get_comments_karma(user):
-    pass
+    return get_karma_for(user, 'comment_count')
 
 def get_karma(user):
     karma = {'likes': get_likes_karma(user)}
-    if user.social_network.name.single().lower() == 'instagram':
+    if user.social_network.single().name.lower() == 'instagram':
         karma.update({
             'comments': get_comments_karma(user),
         })
@@ -97,9 +109,9 @@ def calculate_karma(self, social_network_name, categories=[]):
             if current_karma is None:
                 # Create Karma for this social network
                 if social_network_name.lower() == 'instagram':
-                    current_karma = InstagramKarma.create(**new_karma)[0]
+                    current_karma = InstagramKarma.create(new_karma)[0]
                 elif social_network_name.lower() == 'twitter':
-                    current_karma = TwitterKarma.create(**new_karma)[0]
+                    current_karma = TwitterKarma.create(new_karma)[0]
 
                 current_karma.user.connect(user)
                 current_karma.category.connect(category)
@@ -110,7 +122,7 @@ def calculate_karma(self, social_network_name, categories=[]):
 
             if shall_we_follow_the_user(current_karma):
                 if not user.is_followed:
-                    follow_the_user(user.uid)
+                    follow_the_user(user)
                     user.is_followed = True
                     user.save()
                     log(
@@ -124,7 +136,7 @@ def calculate_karma(self, social_network_name, categories=[]):
                     )
             else:
                 if user.is_followed:
-                    unfollow_the_user(user.uid)
+                    unfollow_the_user(user)
                     user.is_followed = False
                     user.save()
                     log(
@@ -136,3 +148,4 @@ def calculate_karma(self, social_network_name, categories=[]):
                             "social_network": social_network.name
                         }
                     )
+
