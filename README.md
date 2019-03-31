@@ -89,6 +89,8 @@ Es posible instalar en un sistema que tenga docker y docker compose corriendo. E
 
 Una vez inicializado es posible acceder a la aplicación en http://127.0.0.1:8000
 
+Se puede detener parar el servicio con el comando `stop.sh` que parará los servicios.
+
 ## Uso avanzado
 
 Es posible forzar la ejecución de tareas invocando comandos de Django. Desde dentro del container de Django podrías correr el siguiente comando para descargar los datos y forzar el recálculo del karma para las categorías `hashtags_food` y `hashtags_fitness`.
@@ -96,3 +98,7 @@ Es posible forzar la ejecución de tareas invocando comandos de Django. Desde de
      python ./manage.py load_initial_data twitter hashtags_food hashtags_fitness
 
 Las redes sociales soportadas son `twitter` e `instagram`.
+
+## Instalación completa
+
+Las instrucciones de instalación completas se consideran fuera del alcance de este documento: si fuera necesasrio realizar un despligue en producción habría que instalar las bases de datos, el sistema de mensajería y desplegar la aplicación Django de forma estándar.
