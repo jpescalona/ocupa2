@@ -1,9 +1,10 @@
-import requests
+from ocupa2app.helpers import APIBase
 import logging
 from ocupa2app.models import TwitterPost, SocialNetwork, HashTag, User
+from constance import config
 
 
-class Twitter:
+class Twitter(APIBase):
 
     BASE_URL = 'http://hackathon.ocupa2.com/twitter/1.1/'
 
@@ -11,12 +12,13 @@ class Twitter:
         self.token = token
         self.user_id = user_id
         self.cache = dict()
+        super().__init__()
 
     def get_token(self):
         if not self.user_id:
             raise KeyError("You must specify the user_id")
         url = Twitter.BASE_URL + 'get/key'
-        d = requests.get(url, {'email': self.user_id})
+        d = self.get(url, {'email': self.user_id}, skip_operation=True)
         self.token = d.json()['key']
         return self.token
 
@@ -24,36 +26,40 @@ class Twitter:
         """ Returns a list of tweets """
         url = Twitter.BASE_URL + 'search/tweets.json'
         params = {'q': hashtag}
-        d = requests.get(url, params)
+        d = self.get(url, params)
         return d.json()
 
     def get_post(self, tweet_id):
         """ Returns a single post """
         url = Twitter.BASE_URL + 'statuses/retweets/{id}.json'.format(id=tweet_id)
-        d = requests.get(url)
+        d = self.get(url)
         return d.json()[0]
 
     def follow(self, user_id):
         url = Twitter.BASE_URL + 'friendships/create.json?user_id={id}'.format(id=user_id)
-        d = requests.get(url)
+        d = self.get(url)
         return d
 
     def unfollow(self, user_id):
         url = Twitter.BASE_URL + 'friendships/destroy.json?user_id={id}'.format(id=user_id)
-        d = requests.get(url)
+        d = wself.get(url)
         return d
 
-def fetch_posts_and_users_for_tag(tag, logger=None):
+def fetch_posts_and_users_for_tag(tag, logger=None, max_operations=None):
     if not logger:
         logger = logging.getLogger(__name__)
+    if max_operations and max_operations < 4:
+        logger.warning('We cannot fetch data for %s as the maximum operations %s would not allow', tag, max_operations)
+        return
+    tw = Twitter(config.TWITTER_ACCOUNT)
+    logger.info('Getting social_network')
     social_network = SocialNetwork.nodes.get_or_none(name='twitter')
     if social_network is None:
         social_network = SocialNetwork.create({'name': 'twitter'})[0]
-    tw = Twitter('pablo@docecosas.com')
     """ It will download and store every item in the model """
     logger.info('Fetching tweets for tag %s', tag)
     posts = tw.get_posts_by_hashtag(tag)
-    logger.info('Received %d tweets', len(posts))
+    logger.info('Fetched %d tweets', len(posts))
     for post in posts:
         TP = TwitterPost.nodes.get_or_none(uid=post['tweetId'])
         if TP is None:

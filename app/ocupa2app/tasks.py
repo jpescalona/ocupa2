@@ -13,7 +13,7 @@ logger = get_task_logger(__name__)
 
 
 @task(bind=True)
-def refresh_social_network(self, social_network_name, categories=[]):
+def refresh_social_network(self, social_network_name, categories=[], max_operations=None):
     print(logger)
     try:
         helper_module_name = '{}.helpers.{}'.format(
@@ -31,7 +31,7 @@ def refresh_social_network(self, social_network_name, categories=[]):
         tags = [t.name for t in category.hashtags.all()]
         for tag in tags:
             logger.info('Fetching posts for tag %s', tag)
-            helper_module.fetch_posts_and_users_for_tag(tag,logger=logger)
+            helper_module.fetch_posts_and_users_for_tag(tag, logger=logger, max_operations=max_operations)
 
 def get_karma_for(user, attribute):
     """ Returns karma calculated for the Posts of an user using
