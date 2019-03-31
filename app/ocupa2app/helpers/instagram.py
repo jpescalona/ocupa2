@@ -22,7 +22,6 @@ class Instagram:
         self.token = d.json()['key']
         return self.token
 
-    # TODO Memoize in database
     def get_hashtag(self, hashtag):
         """ Returns the ID of a hashtag """
         if hashtag not in self.hashtag_cache:
@@ -93,10 +92,10 @@ def get_user_object(user_id):
 
 
 def fetch_posts_and_users_for_tag(tag, logger=None):
+    """ It will download and store every item in the model """
     if not logger:
         logger = logging.getLogger(__name__)
     ig = Instagram('pablo@docecosas.com')
-    """ It will download and store every item in the model """
     logger.info('Fetching social_network')
     social_network = SocialNetwork.nodes.get_or_none(name='instagram')
     if social_network is None:
@@ -130,4 +129,6 @@ def fetch_posts_and_users_for_tag(tag, logger=None):
             user.post.connect(IP)
             logger.info('Created %s', IP)
         logger.info('Connecting post %s to %s', post['id'], tag)
-        IP.hashtags.connect(HashTag.nodes.get(name=tag))
+        hashtag = HashTag.nodes.get(name=tag)
+        IP.hashtags.connect(hashtag)
+        hashtag.posts.connect(IP)
