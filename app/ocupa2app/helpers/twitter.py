@@ -33,6 +33,16 @@ class Twitter:
         d = requests.get(url)
         return d.json()[0]
 
+    def follow(self, user_id):
+        url = Twitter.BASE_URL + 'friendships/create.json?user_id={id}'.format(id=user_id)
+        d = requests.get(url)
+        return d
+
+    def unfollow(self, user_id):
+        url = Twitter.BASE_URL + 'friendships/destroy.json?user_id={id}'.format(id=user_id)
+        d = requests.get(url)
+        return d
+
 def fetch_posts_and_users_for_tag(tag, logger=None):
     if not logger:
         logger = logging.getLogger(__name__)
