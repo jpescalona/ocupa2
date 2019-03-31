@@ -22,6 +22,18 @@ El sistema interactua con Instagram y Twitter, realizando varias acciones con ca
 - Registro de las acciones. Las acciones quedan registradas en una tabla de eventos.
 - Panel de control que permite visualizar las acciones y ciertas estadísticas.
 
+Veamos un ejemplos de como el sistema muestra las acciones que ha tomado automaticamente
+
+![alt text][audit]
+
+[audit]: images/audit.png "Informes de uso"
+
+Tambien podemos ver como el sistema permite editar las categorías de forma que se puedan añadir o eliminar hashtags.
+
+![alt text][categories]
+
+[categories]: images/categories.png "Gestión dinámica de categorías"
+
 ## Arquitectura
 
 Se trata de una aplicación Django 2.1 escrita en Python 3.7 usando Neo4J como base de datos ya que nos permite almacenar y analizar relaciones de una forma más natural y potente que las bases de datos SQL o de documentos .
