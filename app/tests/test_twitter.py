@@ -6,7 +6,7 @@ from ocupa2app.helpers.twitter import Twitter
 class TwitterTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.user_id = 'pablo@docecosas.com'
+        self.user_id = 'pablo@pablo.com'
         self.token = '8i4tBARfJmGrZnfdBt3I'
         self.tw = Twitter(self.user_id, token=self.token)
         pass
