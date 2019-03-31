@@ -113,7 +113,7 @@ def calculate_karma(self, social_network_name, categories=[]):
             # Calculate the karma for this social network
             new_karma = get_karma(user, category)
             karmas = user.karma.all()
-            current_karmas = [k for k in karmas if k.category == category]
+            current_karmas = [k for k in karmas if k.category.single() == category]
             if current_karmas:
                 current_karma = current_karmas[0]
             else:
