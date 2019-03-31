@@ -101,6 +101,9 @@ def shall_we_follow_the_user(karma):
     else:
         return False
 
+def get_users_sorted_by_karma(users, category, attribute):
+    return sorted(users, reverse=True, key=lambda u: getattr([k for k in users[0].karma if k.category.single() == category ][0], attribute) )
+
 @task(bind=True)
 def calculate_karma(self, social_network_name, categories=[]):
     if not categories:
