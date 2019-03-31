@@ -52,6 +52,10 @@ La fórmula de cálculo de karma podría ser ajustada si se quisieran tener en c
 
 ## El límite de requests
 
+Desde el panel de control es posible cambiar el planificador para que . En esta versión sólo se lleva un registro de llamadas a la API realizadas pero no se ha implementado el mecanismo para limitar las llamadas.
+
+Sería posible ajustar la carga del sistema realizando llamadas a cada categoría en distintas horas para no sobrepasar los límites que cada red social impone en el número de llamadas.
+
 # Posibles mejoras
 
 ## Eficiencia
