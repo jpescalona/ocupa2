@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}#HackathonOcupa2{% endblock %}
+
+{% block content %}
+    <h2>Categoria de Hashtags</h2>
+    <table class="table responsive">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Hashtags</th>
+                <th>Posts bajo esta categoria</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category in object_list %}
+                <tr>
+                    <td>{{ category.name }}</td>
+                    <td>{{ category.hashtags|join:', ' }}</td>
+                    <td>{{ category.number_of_posts }}</td>
+                    <td><a href="/categories/edit/{{ category.uid }}">Editar</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
