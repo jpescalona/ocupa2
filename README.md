@@ -1,6 +1,6 @@
 ![alt text][logo]
 
-[logo]: culebras.png "Los Culebra"
+[logo]: images/culebras.png "Los Culebra"
 
 # Reto ocupa2
 
@@ -22,6 +22,18 @@ El sistema interactua con Instagram y Twitter, realizando varias acciones con ca
 - Registro de las acciones. Las acciones quedan registradas en una tabla de eventos.
 - Panel de control que permite visualizar las acciones y ciertas estadísticas.
 
+Veamos un ejemplos de como el sistema muestra las acciones que ha tomado automaticamente
+
+![alt text][audit]
+
+[audit]: images/audit.png "Informes de uso"
+
+Tambien podemos ver como el sistema permite editar las categorías de forma que se puedan añadir o eliminar hashtags.
+
+![alt text][categories]
+
+[categories]: images/categories.png "Gestión dinámica de categorías"
+
 ## Arquitectura
 
 Se trata de una aplicación Django 2.1 escrita en Python 3.7 usando Neo4J como base de datos ya que nos permite almacenar y analizar relaciones de una forma más natural y potente que las bases de datos SQL o de documentos .
@@ -39,6 +51,10 @@ Eso implicaría que tener menos de 1% de likes respecto al número de seguidores
 La fórmula de cálculo de karma podría ser ajustada si se quisieran tener en cuenta otros valores, pero eso es discutido más adelante en la sección sobre Posibles mejoras.
 
 ## El límite de requests
+
+Desde el panel de control es posible cambiar el planificador para que . En esta versión sólo se lleva un registro de llamadas a la API realizadas pero no se ha implementado el mecanismo para limitar las llamadas.
+
+Sería posible ajustar la carga del sistema realizando llamadas a cada categoría en distintas horas para no sobrepasar los límites que cada red social impone en el número de llamadas.
 
 # Posibles mejoras
 
