@@ -73,25 +73,25 @@ def get_karma(user):
 
 
 def follow_the_user(user):
-    if user.social_network.single().name.lower() == 'Instagram':
+    if user.social_network.single().name.lower() == 'instagram':
         iq = Instagram(config.INSTAGRAM_ACCOUNT)
         iq.follow(user.uid)
-    elif user.social_network.single().name.lower() == 'Twitter':
+    elif user.social_network.single().name.lower() == 'twitter':
         tq = Twitter(config.TWITTER_ACCOUNT)
         tq.follow(user.uid)
 
 def unfollow_the_user(user):
-    if user.social_network.single().name.lower() == 'Instagram':
+    if user.social_network.single().name.lower() == 'instagram':
         iq = Instagram(config.INSTAGRAM_ACCOUNT)
         iq.unfollow(user.uid)
-    elif user.social_network.single().name.lower() == 'Twitter':
+    elif user.social_network.single().name.lower() == 'twitter':
         tq = Twitter(config.TWITTER_ACCOUNT)
         tq.unfollow(user.uid)
 
 def shall_we_follow_the_user(karma):
-    if karma.user.single().social_network.single().name.lower() == 'Instagram':
+    if karma.user.single().social_network.single().name.lower() == 'instagram':
         return karma.likes > 10 and karma.comments > 3
-    elif karma.user.single().social_network.single().name.lower() == 'Tweeter':
+    elif karma.user.single().social_network.single().name.lower() == 'twitter':
         return karma.likes > 10 and karma.replies > 1 and karma.retweets > 10
     else:
         return False
@@ -119,7 +119,9 @@ def calculate_karma(self, social_network_name, categories=[]):
                 current_karma.__dict__.update(new_karma)
                 current_karma.save()
 
+            logger.info('Evaluating karma for %s (%s)', user, current_karma)
             if shall_we_follow_the_user(current_karma):
+                logger.info('We must follow the user')
                 if not user.is_followed:
                     follow_the_user(user)
                     user.is_followed = True
