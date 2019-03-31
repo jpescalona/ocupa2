@@ -1,9 +1,8 @@
 from datetime import datetime
 
-from django.db import models
 from django_neomodel import DjangoNode
 from neomodel import StringProperty, DateTimeProperty, UniqueIdProperty, IntegerProperty, \
-    RelationshipTo, RelationshipFrom, FloatProperty
+    RelationshipTo, RelationshipFrom, FloatProperty, BooleanProperty
 
 
 class SocialNetwork(DjangoNode):
@@ -21,6 +20,7 @@ class User(DjangoNode):
     follower_count = IntegerProperty()
     post = RelationshipTo('Post', 'BELONGS_TO')
     karma = RelationshipFrom('Karma', 'HAS_KARMA')
+    is_followed = BooleanProperty()
 
 class Post(DjangoNode):
     uid = StringProperty()

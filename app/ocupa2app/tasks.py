@@ -109,20 +109,30 @@ def calculate_karma(self, social_network_name, categories=[]):
 
 
             if shall_we_follow_the_user(current_karma):
-                follow_the_user(user.uid)
-                log(
-                    user=None,
-                    action="FOLLOW_USER",
-                    extra={
-                        "title": "Automatically followed user {} on {}".format(user.name, social_network.name)
-                    }
-                )
+                if not user.is_followed:
+                    follow_the_user(user.uid)
+                    user.is_followed = True
+                    user.save()
+                    log(
+                        user=None,
+                        action="FOLLOW_USER",
+                        extra={
+                            "title": "Automatically followed user {} on {}".format(user.name, social_network.name),
+                            "user": user.name,
+                            "social_network": social_network.name
+                        }
+                    )
             else:
-                unfollow_the_user(user.uid)
-                log(
-                    user=None,
-                    action="UNFOLLOW_USER",
-                    extra={
-                        "title": "Automatically unfollowed user {} on {}".format(user.name, social_network.name)
-                    }
-                )
+                if user.is_followed:
+                    unfollow_the_user(user.uid)
+                    user.is_followed = False
+                    user.save()
+                    log(
+                        user=None,
+                        action="UNFOLLOW_USER",
+                        extra={
+                            "title": "Automatically unfollowed user {} on {}".format(user.name, social_network.name),
+                            "user": user.name,
+                            "social_network": social_network.name
+                        }
+                    )
